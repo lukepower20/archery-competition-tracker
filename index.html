@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archery Competition Tracker</title>
+  <!-- Use local copies of vendor libraries for offline use -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Skip to main content link for keyboard users -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="container my-4" id="main-content">
+    <header>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#e67700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Bow and arrow icon" role="img">
+            <path d="M16,5 C12,10 12,22 16,27" />
+            <path d="M16,5 C20,10 20,22 16,27" />
+            <line x1="16" y1="16" x2="28" y2="16" />
+            <polygon points="28,14 28,18 31,16" fill="#e67700" />
+            <line x1="8" y1="16" x2="2" y2="16" stroke-dasharray="2" />
+          </svg> 
+          Dunbrody Archers Score Tracker
+        </h1>
+        <div class="btn-group">
+          <button type="button" class="btn btn-success" id="exportExcelBtn">
+            <i class="bi bi-file-earmark-excel" aria-hidden="true"></i> Export to Excel
+          </button>
+          <label for="importExcelFile" class="btn btn-primary me-2">
+            <i class="bi bi-file-earmark-excel" aria-hidden="true"></i> Import from Excel
+          </label>
+          <input type="file" id="importExcelFile" accept=".xlsx, .xls" class="visually-hidden" aria-label="Import from Excel file">
+        </div>
+      </div>
+    </header>
+    
+    <div aria-live="polite" id="statusMessages" class="sr-status" aria-hidden="true"></div>
+    
+    <!-- Competition selector will be rendered here -->
+    <div id="competitionSelectorContainer" class="mb-3"></div>
+    
+    <ul class="nav nav-tabs mb-4" id="archerTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="true">Dashboard</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="enter-tab" data-bs-toggle="tab" data-bs-target="#enter" type="button" role="tab" aria-controls="enter" aria-selected="false">Enter Scores</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="view-tab" data-bs-toggle="tab" data-bs-target="#view" type="button" role="tab" aria-controls="view" aria-selected="false">View/Edit Scores</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="results-tab" data-bs-toggle="tab" data-bs-target="#results" type="button" role="tab" aria-controls="results" aria-selected="false">Results</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="saved-tab" data-bs-toggle="tab" data-bs-target="#saved" type="button" role="tab" aria-controls="saved" aria-selected="false">Saved Archers</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="competitions-tab" data-bs-toggle="tab" data-bs-target="#competitions" type="button" role="tab" aria-controls="competitions" aria-selected="false">Competitions</button>
+      </li>
+    </ul>
+    
+    <div class="tab-content" id="archerTabContent">
+      <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">Dashboard</h2>
+          </div>
+          <div class="card-body">
+            <div id="dashboard-root"></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="enter" role="tabpanel" aria-labelledby="enter-tab">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">Add New Archer</h2>
+          </div>
+          <div class="card-body">
+            <form id="scoreForm" class="row g-3">
+              <div class="col-md-12 mb-3">
+                <label for="savedCompetitorSelect" class="form-label">Select Saved Archer</label>
+                <select class="form-select" id="savedCompetitorSelect">
+                  <option value="" selected>-- Select a saved Archer or enter new details below --</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="archerName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="archerName" required aria-required="true">
+              </div>
+              <div class="col-md-6">
+                <label for="club" class="form-label">Club</label>
+                <input type="text" class="form-control" id="club">
+              </div>
+              <div class="col-md-6">
+                <label for="categorySelect" class="form-label">Category</label>
+                <select class="form-select" id="categorySelect" required aria-required="true"></select>
+              </div>
+              <div class="col-md-6">
+                <label for="membershipId" class="form-label">Membership #</label>
+                <input type="text" class="form-control" id="membershipId" placeholder="Optional">
+              </div>
+              <div class="col-md-6">
+                <label for="ageRangeSelect" class="form-label">Age Range</label>
+                <select class="form-select" id="ageRangeSelect" required aria-required="true"></select>
+              </div>
+              <div class="col-md-6">
+                <label for="scoreDay1" class="form-label">Day 1 Score</label>
+                <input type="number" class="form-control" id="scoreDay1" min="0" required aria-required="true">
+              </div>
+              <div class="col-md-6">
+                <label for="scoreDay2" class="form-label">Day 2 Score</label>
+                <input type="number" class="form-control" id="scoreDay2" min="0" aria-label="Day 2 Score (optional)">
+              </div>
+              <div class="col-12 mb-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="saveCompetitor" checked>
+                  <label class="form-check-label" for="saveCompetitor">
+                    Save Archer information for future competitions
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary" id="addScoreBtn">
+                  <i class="bi bi-plus-circle" aria-hidden="true"></i> Add Score
+                </button>
+                <button type="button" class="btn btn-danger" id="newCompetition">
+                  <i class="bi bi-trash" aria-hidden="true"></i> Clear Scores
+                </button>
+                <button type="button" class="btn btn-orange" id="sampleBtn">
+                  <i class="bi bi-file-earmark-plus" aria-hidden="true"></i> Sample Competition
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-pane fade" id="view" role="tabpanel" aria-labelledby="view-tab">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">Manage Scores</h2>
+          </div>
+          <div class="card-body">
+            <!-- Inline Add Form -->
+            <div class="inline-add-form mb-4" id="inlineAddContainer">
+              <button type="button" class="form-toggle-btn" id="toggleInlineForm" aria-expanded="false" aria-controls="inlineAddForm">
+                <i class="bi bi-plus-circle me-2" aria-hidden="true"></i> Add New Archer
+              </button>
+              <div id="inlineAddForm" class="mt-3" style="display: none;">
+                <form id="inlineScoreForm" class="row g-3">
+                  <div class="col-md-12 mb-3">
+                    <label for="inlineSavedCompetitorSelect" class="form-label">Select Saved Competitor</label>
+                    <select class="form-select" id="inlineSavedCompetitorSelect">
+                      <option value="" selected>-- Select a saved Archer or enter new details below --</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inlineArcherName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="inlineArcherName" required aria-required="true">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inlineClub" class="form-label">Club</label>
+                    <input type="text" class="form-control" id="inlineClub">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inlineMembershipId" class="form-label">Membership #</label>
+                    <input type="text" class="form-control" id="inlineMembershipId" placeholder="Optional">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inlineCategorySelect" class="form-label">Category</label>
+                    <select class="form-select" id="inlineCategorySelect" required aria-required="true"></select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inlineAgeRangeSelect" class="form-label">Age Range</label>
+                    <select class="form-select" id="inlineAgeRangeSelect" required aria-required="true"></select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inlineScoreDay1" class="form-label">Day 1 Score</label>
+                    <input type="number" class="form-control" id="inlineScoreDay1" min="0" required aria-required="true">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inlineScoreDay2" class="form-label">Day 2 Score</label>
+                    <input type="number" class="form-control" id="inlineScoreDay2" min="0" aria-label="Day 2 Score (optional)">
+                  </div>
+                  <div class="col-12 mb-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="inlineSaveCompetitor" checked>
+                      <label class="form-check-label" for="inlineSaveCompetitor">
+                        Save Archer information for future competitions
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary" id="inlineAddScoreBtn">
+                      <i class="bi bi-plus-circle" aria-hidden="true"></i> Add Score
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="inlineCancelBtn">
+                      <i class="bi bi-x-circle" aria-hidden="true"></i> Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="searchInput" class="form-label">Search</label>
+              <div class="input-group">
+                <span class="input-group-text" id="search-addon"><i class="bi bi-search" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" id="searchInput" placeholder="Search by name..." aria-describedby="search-addon">
+              </div>
+            </div>
+            <div id="scoresTable" class="table-responsive" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-pane fade" id="results" role="tabpanel" aria-labelledby="results-tab">
+        <div class="card mb-4">
+          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">Competition Results</h2>
+            <button type="button" class="btn btn-light no-print" id="printResultsBtn">
+              <i class="bi bi-printer" aria-hidden="true"></i> Print Results
+            </button>
+          </div>
+        </div>
+        <div id="resultsContent" aria-live="polite"></div>
+      </div>
+      
+      <div class="tab-pane fade" id="saved" role="tabpanel" aria-labelledby="saved-tab">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">Manage Saved Archer</h2>
+          </div>
+          <div class="card-body">
+            <p class="mb-4">
+              These Archers are saved for quick selection in future competitions. This allows you to easily add returning archers without having to re-enter their details.
+            </p>
+            <div class="mb-3">
+              <label for="savedSearchInput" class="form-label">Search Saved Archers</label>
+              <div class="input-group">
+                <span class="input-group-text" id="saved-search-addon"><i class="bi bi-search" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" id="savedSearchInput" placeholder="Search by name..." aria-describedby="saved-search-addon">
+              </div>
+            </div>
+            <div id="savedCompetitorsTable" class="table-responsive" aria-live="polite">
+              <p>Loading saved Archers...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-pane fade" id="competitions" role="tabpanel" aria-labelledby="competitions-tab">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">Manage Competitions</h2>
+          </div>
+          <div class="card-body">
+            <p class="mb-4">
+              Create and manage separate competitions. Each competition has its own set of archers and results, while saved Archers are shared across all competitions.
+            </p>
+            
+            <div class="mb-3">
+              <button type="button" class="btn btn-success" id="createNewCompetitionButton">
+                <i class="bi bi-plus-circle" aria-hidden="true"></i> Create New Competition
+              </button>
+            </div>
+            
+            <div class="mb-3">
+              <label for="competitionsSearchInput" class="form-label">Search Competitions</label>
+              <div class="input-group">
+                <span class="input-group-text" id="competitions-search-addon"><i class="bi bi-search" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" id="competitionsSearchInput" placeholder="Search by name..." aria-describedby="competitions-search-addon">
+              </div>
+            </div>
+            
+            <div id="competitionsListContainer" class="table-responsive" aria-live="polite">
+              <p>Loading competitions...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for confirmations instead of alert() -->
+  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title h5" id="confirmationModalLabel">Confirm Action</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="confirmationModalBody">
+          Are you sure you want to proceed?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="confirmationModalConfirm">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast for notifications instead of alert() -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <i class="bi bi-info-circle me-2" aria-hidden="true"></i>
+        <strong class="me-auto" id="toastTitle">Notification</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" id="toastMessage">
+        Action completed successfully.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Load Scripts -->
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/xlsx/xlsx.full.min.js"></script>
+  
+  <!-- Load core framework JS -->
+  <script src="js/constants.js"></script>
+  <script src="js/models.js"></script>
+  <script src="js/utilities.js"></script>
+  <script src="js/components.js"></script>
+  
+  <!-- Load UI helpers and services -->
+  <script src="js/ui-helpers.js"></script>
+  <script src="js/data-service.js"></script>
+  <script src="js/ui-renderer.js"></script>
+  
+  <!-- Load handlers -->
+  <script src="js/table-handlers.js"></script>
+  <script src="js/form-handlers.js"></script>
+  <script src="js/event-handlers.js"></script>
+  
+  <!-- Load additional services -->
+  <script src="js/export-service.js"></script>
+  <script src="js/debug-helper.js"></script>
+  <script src="js/sync-service.js"></script>
+  <script src="js/sync-ui-components.js"></script>
+  <script src="js/dashboard.js"></script>
+  
+  <!-- Load application initializer (must be last) -->
+  <script src="js/app-initializer.js"></script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+/* Competition selector styles */
+.competition-selector-container {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+
+/* Active competition highlight */
+.table tr.table-primary {
+  background-color: rgba(43, 87, 151, 0.1);
+}
+
+/* Competition card styles */
+.competition-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.competition-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.competition-card.active {
+  border-color: #2b5797;
+  border-width: 2px;
+}
+
+.competition-card .badge {
+  font-size: 0.7rem;
+  padding: 0.25em 0.5em;
+}
+
+/* Competition stats */
+.competition-stats {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.competition-stats .stat-item {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 8px 12px;
+  flex: 1;
+  text-align: center;
+}
+
+.competition-stats .stat-value {
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: block;
+}
+
+.competition-stats .stat-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* Competition actions row */
+.competition-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.competition-selector {
+  flex-grow: 1;
+  margin-right: 15px;
+}
+
+.competition-selector label {
+  margin-bottom: 0.25rem;
+  display: block;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.competition-selector select {
+  max-width: 300px;
+}
+
+/* Competition date indicators */
+.competition-date {
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* Competition switching transition */
+.tab-pane {
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Competition badge styles */
+.badge-active {
+  background-color: #28a745;
+  color: white;
+}
+
+.badge-inactive {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Competition counter styles */
+.competition-counter {
+  background-color: #f1f1f1;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+/* Enhanced table hover for mobile touch targets */
+@media (max-width: 768px) {
+  .table tr:hover td {
+    background-color: rgba(0,0,0,0.03);
+  }
+  
+  .btn-group-sm > .btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Competition selector hover state */
+#competitionSelect:hover {
+  border-color: #2b5797;
+}
+
+/* Competition title styles in results */
+.competition-title {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.competition-title h2 {
+  margin-bottom: 0.25rem;
+}
+
+.competition-title .text-muted {
+  font-size: 0.9rem;
+}
+/* Fix for the skip link - properly hide it until focused */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 9999;
+  background-color: #ffffff;
+  padding: 10px;
+  border: 2px solid #2b5797;
+  color: #2b5797;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: auto;
+  height: auto;
+  outline: 3px solid #2b5797;
+}
+
+/* Fix for the orange button styling */
+.btn-orange { 
+  background-color: #e67700; 
+  border-color: #e67700; 
+  color: white; 
+}
+
+.btn-orange:hover, .btn-orange:focus { 
+  background-color: #cc6a00; 
+  border-color: #cc6a00; 
+  color: white; 
+  box-shadow: 0 0 0 0.25rem rgba(230, 119, 0, 0.5);
+}
+
+/* Update the print styles to keep category headers visible */
+@media print {
+  /* Hide all navigation and control elements */
+  .skip-link,
+  header,
+  #competitionSelectorContainer,
+  .nav-tabs,
+  .no-print,
+  .app-header,
+  .nav-tabs,
+  .theme-toggle,
+  .btn-group,
+  #printResultsBtn {
+    display: none !important;
+  }
+  
+  /* Hide all tabs except results */
+  .tab-pane:not(#results) {
+    display: none !important;
+  }
+  
+  /* Force display of results tab */
+  #results {
+    display: block !important;
+    opacity: 1 !important;
+  }
+  
+  /* Force showing the results tab content */
+  .tab-pane.fade {
+    opacity: 1 !important;
+  }
+  
+  /* Only print from the results container down */
+  .container {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  /* Clean up table appearance */
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  /* Make sure the card doesn't have extra padding */
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Result title needs to be on top */
+  .competition-title {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  /* Hide ONLY the top card header with buttons */
+  #results > .card > .card-header {
+    display: none !important;
+  }
+  
+  /* But KEEP the category card headers visible and format nicely */
+  #resultsContent .card-header {
+    display: block !important;
+    background-color: #f1f1f1 !important;
+    color: #000 !important;
+    border-bottom: 1px solid #ddd !important;
+    padding: 8px 12px !important;
+    margin-bottom: 0 !important;
+    break-after: avoid !important; /* Prevent page break right after header */
+  }
+  
+  /* Keep category title visible */
+  #resultsContent .card-header h3 {
+    margin: 0 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+  }
+  
+  /* Show the actual results content only */
+  #resultsContent {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  
+  /* Keep table and header together where possible */
+  #resultsContent .card {
+    break-inside: avoid !important;
+  }
+  
+  /* Format page */
+  @page {
+    margin: 0.5cm;
+  }
+}
+/* Compact layout for Enter Scores tab */
+#enter .card-body {
+  padding: 0.75rem;
+}
+
+#enter .form-label {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+#enter .mb-3 {
+  margin-bottom: 0.5rem !important;
+}
+
+#enter .row.g-3 {
+  --bs-gutter-y: 0.5rem;
+}
+
+#enter #scoreForm {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+#enter .col-md-6, 
+#enter .col-md-12, 
+#enter .col-12 {
+  width: 100%;
+  max-width: 100%;
+  grid-column: auto;
+  padding: 0 0.5rem;
+}
+
+/* Make saved competitor dropdown span across all columns */
+#enter #scoreForm > div:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Make checkbox and buttons row span across all columns */
+#enter #scoreForm > div:nth-last-child(2),
+#enter #scoreForm > div:last-child {
+  grid-column: 1 / -1;
+}
+
+/* Make action buttons more compact */
+#enter .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Reduce input field height */
+#enter .form-control,
+#enter .form-select {
+  padding: 0.25rem 0.5rem;
+  height: calc(1.5em + 0.5rem + 2px);
+  font-size: 0.875rem;
+}
+
+/* Reduce space between form check items */
+#enter .form-check {
+  padding-top: 0;
+  margin-bottom: 0.25rem;
+}
+
+/* Ensure this only applies to laptops/desktops */
+@media (min-width: 768px) and (max-width: 1366px) {
+  #enter #scoreForm {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Reduce card padding further on slightly smaller screens */
+  #enter .card-body {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+/* For very small screens, fallback to single column */
+@media (max-width: 767px) {
+  #enter #scoreForm {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dashboard styles */
+.dashboard-overview .stat-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2b5797;
+  display: block;
+}
+
+.dashboard-overview .stat-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.dashboard-overview .card {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dashboard-overview .quick-action-icon {
+  color: #2b5797;
+  transition: transform 0.2s;
+}
+
+.dashboard-overview .btn-link:hover .quick-action-icon {
+  transform: scale(1.1);
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+}
