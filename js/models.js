@@ -2,11 +2,12 @@
  * Data Models for Archery Competition Tracker
  * Defines structured classes for the application's data entities
  */
+import { ERRORS } from './constants.js';
 
 /**
  * Archer model representing a competitor
  */
-class Archer {
+export class Archer {
   constructor(data = {}) {
     this.id = data.id;
     this.name = data.name || '';
@@ -27,7 +28,7 @@ class Archer {
   validate() {
     const errors = [];
     
-    if (!this.name) errors.push(CONSTANTS.ERRORS.ARCHER_NAME_REQUIRED);
+    if (!this.name) errors.push(ERRORS.ARCHER_NAME_REQUIRED);
     if (!this.category) errors.push('Category is required');
     if (!this.age) errors.push('Age range is required');
     if (isNaN(this.day1) || this.day1 < 0) errors.push('Day 1 score must be a positive number');
@@ -62,7 +63,7 @@ class Archer {
 /**
  * Competition model representing an archery competition
  */
-class Competition {
+export class Competition {
   constructor(data = {}) {
     this.id = data.id;
     this.name = data.name || '';
@@ -79,7 +80,7 @@ class Competition {
   validate() {
     const errors = [];
     
-    if (!this.name) errors.push(CONSTANTS.ERRORS.COMPETITION_NAME_REQUIRED);
+    if (!this.name) errors.push(ERRORS.COMPETITION_NAME_REQUIRED);
     
     return {
       isValid: errors.length === 0,
@@ -106,7 +107,7 @@ class Competition {
 /**
  * SavedCompetitor model representing a saved archer for reuse
  */
-class SavedCompetitor {
+export class SavedCompetitor {
   constructor(data = {}) {
     this.name = data.name || '';
     this.club = data.club || '';
@@ -123,7 +124,7 @@ class SavedCompetitor {
   validate() {
     const errors = [];
     
-    if (!this.name) errors.push(CONSTANTS.ERRORS.ARCHER_NAME_REQUIRED);
+    if (!this.name) errors.push(ERRORS.ARCHER_NAME_REQUIRED);
     
     return {
       isValid: errors.length === 0,
@@ -163,7 +164,9 @@ class SavedCompetitor {
   }
 }
 
-// Make models available globally
-window.Archer = Archer;
-window.Competition = Competition;
-window.SavedCompetitor = SavedCompetitor;
+// For backward compatibility during migration
+if (typeof window !== 'undefined') {
+  window.Archer = Archer;
+  window.Competition = Competition;
+  window.SavedCompetitor = SavedCompetitor;
+}

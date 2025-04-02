@@ -325,30 +325,7 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/xlsx/xlsx.full.min.js"></script>
   
-  <!-- Load core framework JS -->
-  <script src="js/constants.js"></script>
-  <script src="js/models.js"></script>
-  <script src="js/utilities.js"></script>
-  <script src="js/components.js"></script>
-  
-  <!-- Load UI helpers and services -->
-  <script src="js/ui-helpers.js"></script>
-  <script src="js/data-service.js"></script>
-  <script src="js/ui-renderer.js"></script>
-  
-  <!-- Load handlers -->
-  <script src="js/table-handlers.js"></script>
-  <script src="js/form-handlers.js"></script>
-  <script src="js/event-handlers.js"></script>
-  
-  <!-- Load additional services -->
-  <script src="js/export-service.js"></script>
-  <script src="js/debug-helper.js"></script>
-  <script src="js/sync-service.js"></script>
-  <script src="js/sync-ui-components.js"></script>
-  <script src="js/dashboard.js"></script>
-  
-  <!-- Load application initializer (must be last) -->
-  <script src="js/app-initializer.js"></script>
+  <!-- Load application initializer (using ES modules) -->
+  <script type="module" src="js/app-initializer.js"></script>
 </body>
 </html>

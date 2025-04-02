@@ -2,14 +2,17 @@
  * Archery Data Service
  * Handles all data operations using IndexedDB for improved storage and performance
  */
-const ArcheryDataService = {
+import { CATEGORIES, AGE_RANGES, DB, ERRORS } from './constants.js';
+import { Logger, ErrorHandler } from './utilities.js';
+
+export const ArcheryDataService = {
   // Configuration data - using constants
-  categories: CONSTANTS.CATEGORIES,
-  ageRanges: CONSTANTS.AGE_RANGES,
+  categories: CATEGORIES,
+  ageRanges: AGE_RANGES,
   
   // Database reference
   db: null,
-  dbName: CONSTANTS.DB.NAME,
+  dbName: DB.NAME,
   
   // Active competition reference
   activeCompetition: null,
@@ -253,7 +256,7 @@ const ArcheryDataService = {
     // Validate competition object
     if (!competition.name) {
       Logger.error('Cannot create competition without name');
-      return Promise.reject(new ErrorHandler.createError('Competition name is required'));
+      return Promise.reject(new Error('Competition name is required'));
     }
     
     // Add timestamps
@@ -390,7 +393,7 @@ const ArcheryDataService = {
     // Validate competition object
     if (!competition.id) {
       Logger.error('Cannot update competition without ID');
-      return Promise.reject(new ErrorHandler.createError('Competition ID is required'));
+      return Promise.reject(new Error('Competition ID is required'));
     }
     
     // Add update timestamp
@@ -704,7 +707,7 @@ const ArcheryDataService = {
     // Validate archer object
     if (!archer.name) {
       Logger.error('Cannot save archer without name');
-      return Promise.reject(new ErrorHandler.createError('Archer name is required'));
+      return Promise.reject(new Error('Archer name is required'));
     }
     
     // Calculate total if not provided
@@ -1235,7 +1238,7 @@ const ArcheryDataService = {
     // Validate competitor object
     if (!competitor.name) {
       Logger.error('Cannot save competitor without name');
-      return Promise.reject(new ErrorHandler.createError('Competitor name is required'));
+      return Promise.reject(new Error('Competitor name is required'));
     }
     
     // Add timestamp for sorting
