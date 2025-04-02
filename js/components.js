@@ -2,11 +2,14 @@
  * UI Components for Archery Competition Tracker
  * Provides reusable UI components for the application
  */
+import { UIUtils } from './utilities.js';
+import { DOMUtils } from './utilities.js';
+import { UI } from './constants.js';
 
 /**
  * DataTable component for displaying tabular data
  */
-const DataTable = {
+export const DataTable = {
   /**
    * Render a data table
    * @param {string} containerId - ID of the container element
@@ -28,7 +31,7 @@ const DataTable = {
    * @param {Function} onPageChange - Page change callback
    * @returns {Object} Table control object
    */
-  createPaginated: function(containerId, columns, data, pageSize = CONSTANTS.UI.DEFAULT_PAGE_SIZE, onPageChange = null) {
+  createPaginated: function(containerId, columns, data, pageSize = UI.DEFAULT_PAGE_SIZE, onPageChange = null) {
     const container = document.getElementById(containerId);
     if (!container) return null;
     
@@ -87,7 +90,7 @@ const DataTable = {
 /**
  * Modal component for creating and managing modals
  */
-const Modal = {
+export const Modal = {
   /**
    * Create a modal
    * @param {Object} options - Modal options
@@ -332,7 +335,7 @@ const Modal = {
 /**
  * Toast component for notifications
  */
-const Toast = {
+export const Toast = {
   /**
    * Show a toast notification
    * @param {Object} options - Toast options
@@ -531,7 +534,7 @@ const Toast = {
 /**
  * Form component for creating and managing forms
  */
-const Form = {
+export const Form = {
   /**
    * Create a form with validation
    * @param {Object} options - Form options
@@ -866,6 +869,8 @@ const Form = {
     };
   }
 };
+
+// Bootstrap is loaded globally in the HTML file
 
 // Make components available globally
 window.DataTable = DataTable;
