@@ -1,8 +1,12 @@
 /**
  * UI Components for Sync Functionality
  */
+import { ArcheryDataService } from './data-service.js';
+import { ArcheryUIRenderer } from './ui-renderer.js';
+import { renderDashboard } from './dashboard.js';
+// Bootstrap is loaded globally in the HTML file
 
-const ArcherySyncUI = {
+export const ArcherySyncUI = {
     /**
      * Initialize sync UI components
      */

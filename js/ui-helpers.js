@@ -2,8 +2,11 @@
  * UI Helpers for Archery Competition Tracker
  * Provides common UI utility functions and notifications
  */
+import { UI } from './constants.js';
+import { ArcheryUIRenderer } from './ui-renderer.js';
+// Bootstrap is loaded globally in the HTML file
 
-const UIHelpers = {
+export const UIHelpers = {
   /**
    * Show toast notification
    * @param {string} title - Notification title

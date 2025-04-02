@@ -2,8 +2,14 @@
  * Form Handlers for Archery Competition Tracker
  * Handles all form processing and submission logic
  */
+import { UIHelpers } from './ui-helpers.js';
+import { ArcheryDataService } from './data-service.js';
+import { TableHandlers } from './table-handlers.js';
+import { ArcheryUIRenderer } from './ui-renderer.js';
+import { Logger } from './utilities.js';
+// Bootstrap is loaded globally in the HTML file
 
-const FormHandlers = {
+export const FormHandlers = {
   /**
    * Process archer data from a form
    * @param {boolean} isInlineForm - Whether data comes from the inline form

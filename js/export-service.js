@@ -1,8 +1,11 @@
 /**
- * Troubleshooting version of the export function
- * This version includes additional error handling and logging
+ * Export Service for Archery Competition Tracker
+ * Handles exporting and importing data to/from Excel
  */
-const ArcheryExportService = {
+import { ArcheryDataService } from './data-service.js';
+// Bootstrap is loaded globally in the HTML file
+
+export const ArcheryExportService = {
   // Cache for scores data to avoid passing large datasets
   scoresData: null,
   

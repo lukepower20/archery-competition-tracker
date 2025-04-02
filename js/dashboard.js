@@ -1,8 +1,9 @@
-// Create a file called dashboard.js with this content
 /**
  * Simple Dashboard for Archery Competition Tracker
  * This is a vanilla JavaScript implementation - no React required
  */
+import { ArcheryDataService } from './data-service.js';
+// Bootstrap is loaded globally in the HTML file
 
 // Initialize dashboard when the page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
   /**
    * Render the dashboard with current competition data
    */
-  async function renderDashboard() {
+  export async function renderDashboard() {
     const dashboardRoot = document.getElementById('dashboard-root');
     if (!dashboardRoot) return;
     

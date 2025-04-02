@@ -2,8 +2,25 @@
  * Application Initializer for Archery Competition Tracker
  * Handles application startup and initialization
  */
+import { UIHelpers } from './ui-helpers.js';
+import { EventHandlers } from './event-handlers.js';
+import { TableHandlers } from './table-handlers.js';
+import { ArcheryDataService } from './data-service.js';
+// Bootstrap is loaded globally in the HTML file
 
-const AppInitializer = {
+// Import all other modules to ensure they're loaded
+import './constants.js';
+import './models.js';
+import './utilities.js';
+import './components.js';
+import './ui-renderer.js';
+import './export-service.js';
+import './debug-helper.js';
+import './sync-service.js';
+import './sync-ui-components.js';
+import './dashboard.js';
+
+export const AppInitializer = {
   /**
    * Initialize the application
    * @returns {Promise} Promise resolving when initialization is complete
@@ -52,5 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// Make it available globally
-window.AppInitializer = AppInitializer;
+// For backward compatibility during migration
+if (typeof window !== 'undefined') {
+  window.AppInitializer = AppInitializer;
+}

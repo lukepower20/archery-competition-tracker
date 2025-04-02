@@ -2,8 +2,15 @@
  * Event Handlers for Archery Competition Tracker
  * Handles all event binding and initialization
  */
+import { UIHelpers } from './ui-helpers.js';
+import { ArcheryDataService } from './data-service.js';
+import { FormHandlers } from './form-handlers.js';
+import { TableHandlers } from './table-handlers.js';
+import { ArcheryUIRenderer } from './ui-renderer.js';
+import { ArcheryExportService } from './export-service.js';
+// Bootstrap is loaded globally in the HTML file
 
-const EventHandlers = {
+export const EventHandlers = {
   /**
    * Initialize competition selector
    * @returns {Promise} Promise resolving when initialization is complete

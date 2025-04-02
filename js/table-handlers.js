@@ -2,8 +2,13 @@
  * Table Handlers for Archery Competition Tracker
  * Handles all table-related operations and event handling
  */
+import { UIHelpers } from './ui-helpers.js';
+import { ArcheryDataService } from './data-service.js';
+import { FormHandlers } from './form-handlers.js';
+import { ArcheryUIRenderer } from './ui-renderer.js';
+// Bootstrap is loaded globally in the HTML file
 
-const TableHandlers = {
+export const TableHandlers = {
   /**
    * Save edited score
    * @param {number} index - Index of the score to save

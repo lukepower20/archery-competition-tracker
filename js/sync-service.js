@@ -1,8 +1,11 @@
 /**
- * Archery Sync Service
- * Handles synchronization between local IndexedDB and cloud storage
+ * Sync Service for Archery Competition Tracker
+ * Handles synchronization with remote servers
  */
-const ArcherySyncService = {
+import { ArcheryDataService } from './data-service.js';
+// Bootstrap is loaded globally in the HTML file
+
+export const ArcherySyncService = {
     // Configuration
     isOnline: window.navigator.onLine,
     isSyncing: false,

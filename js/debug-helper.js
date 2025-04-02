@@ -1,9 +1,11 @@
 /**
- * Debug Helper
- * This file provides debugging tools to help troubleshoot issues
+ * Debug Helper for Archery Competition Tracker
+ * Provides debugging tools and utilities
  */
+import { ArcheryDataService } from './data-service.js';
+// Bootstrap is loaded globally in the HTML file
 
-const ArcheryDebugHelper = {
+export const ArcheryDebugHelper = {
     /**
      * Test all form functions and data flow
      */

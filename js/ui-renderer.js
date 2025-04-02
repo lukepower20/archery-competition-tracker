@@ -2,7 +2,11 @@
  * Archery UI Renderer
  * Handles all UI rendering and display logic with async support for IndexedDB
  */
-const ArcheryUIRenderer = {
+import { UIHelpers } from './ui-helpers.js';
+import { ArcheryDataService } from './data-service.js';
+// Bootstrap is loaded globally in the HTML file
+
+export const ArcheryUIRenderer = {
   /**
    * Render the competition selector dropdown
    * @param {HTMLElement} container - Container element for the dropdown
