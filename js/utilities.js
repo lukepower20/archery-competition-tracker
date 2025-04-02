@@ -2,11 +2,12 @@
  * Utilities for Archery Competition Tracker
  * Provides helper functions, error handling, and logging
  */
+import { UI, ERRORS } from './constants.js';
 
 /**
  * Error Handler for centralized error management
  */
-const ErrorHandler = {
+export const ErrorHandler = {
   /**
    * Handle an error with consistent logging and user feedback
    * @param {Error} error - The error object
@@ -43,6 +44,7 @@ const ErrorHandler = {
     if (toastTitle && toastMessage) {
       toastTitle.textContent = 'Error';
       toastMessage.textContent = this.getUserFriendlyMessage(error, context);
+      // Bootstrap is loaded globally in the HTML file
       const toast = bootstrap.Toast.getOrCreateInstance(document.getElementById('notificationToast'));
       toast.show();
       return;
@@ -75,7 +77,7 @@ const ErrorHandler = {
 /**
  * Logger for consistent logging throughout the application
  */
-const Logger = {
+export const Logger = {
   levels: {
     DEBUG: 0,
     INFO: 1,
@@ -141,7 +143,7 @@ const Logger = {
 /**
  * UI Utilities for common UI operations
  */
-const UIUtils = {
+export const UIUtils = {
   /**
    * Show a loading indicator in a container
    * @param {string} containerId - ID of the container element
@@ -196,7 +198,7 @@ const UIUtils = {
       if (statusMessages.contains(announcement)) {
         statusMessages.removeChild(announcement);
       }
-    }, CONSTANTS.UI.NOTIFICATION_DURATION);
+    }, UI.NOTIFICATION_DURATION);
   },
   
   /**
@@ -205,10 +207,11 @@ const UIUtils = {
    * @param {Array} columns - Array of column definitions
    * @param {Array} data - Array of data objects
    * @param {Object} options - Additional options
+   * @returns {HTMLElement} The created table element
    */
   createDataTable: function(containerId, columns, data, options = {}) {
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container) return null;
     
     const table = document.createElement('table');
     table.className = 'table table-striped';
@@ -351,7 +354,7 @@ const UIUtils = {
 /**
  * State Management for application state
  */
-const AppState = (function() {
+export const AppState = (function() {
   let state = {
     activeCompetition: null,
     isOnline: navigator.onLine,
@@ -415,7 +418,7 @@ const AppState = (function() {
 /**
  * DOM Utilities for working with the DOM
  */
-const DOMUtils = {
+export const DOMUtils = {
   /**
    * Add event delegation to a container
    * @param {string} containerId - ID of the container element
@@ -499,7 +502,7 @@ const DOMUtils = {
 /**
  * Validation utilities
  */
-const ValidationUtils = {
+export const ValidationUtils = {
   /**
    * Validate an archer object
    * @param {Object} archer - Archer object to validate
@@ -508,7 +511,7 @@ const ValidationUtils = {
   validateArcher: function(archer) {
     const errors = [];
     
-    if (!archer.name) errors.push(CONSTANTS.ERRORS.ARCHER_NAME_REQUIRED);
+    if (!archer.name) errors.push(ERRORS.ARCHER_NAME_REQUIRED);
     if (!archer.category) errors.push('Category is required');
     if (!archer.age) errors.push('Age range is required');
     if (isNaN(archer.day1) || archer.day1 < 0) errors.push('Day 1 score must be a positive number');
@@ -528,7 +531,7 @@ const ValidationUtils = {
   validateCompetition: function(competition) {
     const errors = [];
     
-    if (!competition.name) errors.push(CONSTANTS.ERRORS.COMPETITION_NAME_REQUIRED);
+    if (!competition.name) errors.push(ERRORS.COMPETITION_NAME_REQUIRED);
     
     return {
       isValid: errors.length === 0,
@@ -576,10 +579,12 @@ const ValidationUtils = {
   }
 };
 
-// Make utilities available globally
-window.ErrorHandler = ErrorHandler;
-window.Logger = Logger;
-window.UIUtils = UIUtils;
-window.AppState = AppState;
-window.DOMUtils = DOMUtils;
-window.ValidationUtils = ValidationUtils;
+// For backward compatibility during migration
+if (typeof window !== 'undefined') {
+  window.ErrorHandler = ErrorHandler;
+  window.Logger = Logger;
+  window.UIUtils = UIUtils;
+  window.AppState = AppState;
+  window.DOMUtils = DOMUtils;
+  window.ValidationUtils = ValidationUtils;
+}
